@@ -1,4 +1,6 @@
 from configparser import ConfigParser, ExtendedInterpolation
+import argparse
+from email.policy import default
 
 import h5py
 import numpy as np
@@ -9,10 +11,19 @@ from spikelib.spiketools import chunk_spikes
 from spikelib.utils import check_groups
 
 if __name__ == '__main__':
-    config = ConfigParser(interpolation=ExtendedInterpolation())
-    config.read('../config.ini')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-dir', help='experiment folder', default='../')
+    args = parser.parse_args()
 
-    exp_name = config['EXP']['name']
+    config = ConfigParser(interpolation=ExtendedInterpolation())
+    config.read(f'{args.dir}' + '/config.ini')
+
+    try:
+        exp_name = config['EXP']['name']
+    except:
+        print(f'Wrong experiment folder: {args.dir}')
+        raise
+
     stim_file = config['FILES']['wn_stim']
     sorting_file = config['FILES']['sorting']
     events_file = config['SYNC']['events']
@@ -64,7 +75,7 @@ if __name__ == '__main__':
                 if key in fsta[group_name]:
                     fsta[group_name + key][...] = ksta
                 else:
-                    fsta[group_name].create_dataset(key, data=ksta, dtype=np.float,
+                    fsta[group_name].create_dataset(key, data=ksta, dtype=np.float64,
                                                     compression="gzip")
 
             fsta[group_name].attrs['fps'] = fps

@@ -30,7 +30,7 @@ def get_flash_response(spks, panalysis, protocol_name, nd, intensity, extra,
     filter_flash = ((event_list['protocol_name'] == protocol_name)
                     & (event_list['nd'] == nd)
                     & (event_list['intensity'] == intensity)
-                    & (event_list['extra_desciption'].isin([extra]))
+                    & (event_list['extra_description'].isin([extra]))
                     )
     if not filter_flash.any():
         return
