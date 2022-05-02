@@ -1,1 +1,0 @@
-This folder contains hdf5 files with all processed protocols.

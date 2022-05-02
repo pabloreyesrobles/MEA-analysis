@@ -1,1 +1,0 @@
-This folder contains all mcd file with analag channels to get the sync times.
